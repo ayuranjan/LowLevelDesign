@@ -3,7 +3,7 @@
 #include <list>
 #include <algorithm>
 #include <functional>
-
+using namespace std;
 template <typename T>
 class UnorderedSet {
 private:
@@ -171,61 +171,54 @@ public:
   
 };
 
-// Main method to showcase examples of the UnorderedSet class usage
+// Main function
 int main() {
-    // 1. Example of default constructor
-    UnorderedSet<int> set1;
-    std::cout << "1. Default constructor - size: " << set1.size() << ", buckets: " << set1.bucket_count() << std::endl;
+    /* Logic for UnorderedSet implementation:
+    UnorderedSet
+   |
+   +-- Vector of Buckets
+       |
+       +-- Bucket 0: [E1] -> [E2] -> nullptr
+       |
+       +-- Bucket 1: [E3] -> nullptr
+       |
+   - Each Bucket is a linked list of elements
+   - The hash function determines which bucket an element goes into
+   - Collisions are handled by adding to the same bucket (linked list)
+   - Keep track of number of elements and buckets (size_ and bucket_count_)
+   - Use load factor to determine when to resize the hash table
+   - Maintain max_load_factor to trigger resizing when exceeded
+   - Ensure uniqueness of elements (no duplicates allowed)
+    */
 
-    // 2. Example of constructor with initial bucket count
-    UnorderedSet<int> set2(20);
-    std::cout << "2. Constructor with initial bucket count - size: " << set2.size() << ", buckets: " << set2.bucket_count() << std::endl;
-
-    // 3. Example of insert
-    set2.insert(10);
+    UnorderedSet<int> set1; // default ctor
+    UnorderedSet<int> set2(20); // ctor with initial bucket count
+    set2.insert(10); // insert
     set2.insert(20);
     set2.insert(30);
-    std::cout << "3. After insertions - size: " << set2.size() << std::endl;
-
-    // 4. Example of erase
-    set2.erase(20);
-    std::cout << "4. After erase(20) - size: " << set2.size() << std::endl;
-
-    // 5. Example of contains
-    std::cout << "5. Contains 10: " << (set2.contains(10) ? "Yes" : "No") << std::endl;
-    std::cout << "   Contains 20: " << (set2.contains(20) ? "Yes" : "No") << std::endl;
-
-    // 6. Example of size
-    std::cout << "6. Current size: " << set2.size() << std::endl;
-
-    // 7. Example of empty
-    std::cout << "7. Is set empty: " << (set2.empty() ? "Yes" : "No") << std::endl;
-
-    // 8. Example of clear
-    set2.clear();
-    std::cout << "8. After clear - size: " << set2.size() << std::endl;
-
-    // 9. Example of bucket_count
-    std::cout << "9. Bucket count: " << set2.bucket_count() << std::endl;
-
-    // 10. Example of load_factor
+    set2.erase(20); // erase
+    cout << set2.contains(10); // contains
+    cout << set2.size(); // size
+    cout << set2.empty(); // empty
+    set2.clear(); // clear
+    cout << set2.bucket_count(); // bucket_count
     set2.insert(40);
     set2.insert(50);
-    std::cout << "10. Current load factor: " << set2.load_factor() << std::endl;
-
-    // 11. Example of max_load_factor
-    set2.max_load_factor(0.5);
-    std::cout << "11. After setting max_load_factor to 0.5 - bucket count: " << set2.bucket_count() << std::endl;
-
-    // 12. Example of copy constructor
-    UnorderedSet<int> set3 = set2;
-    std::cout << "12. Copy constructor - size of copied set: " << set3.size() << std::endl;
-
-    // 13. Example of copy assignment operator
+    cout << set2.load_factor(); // load_factor
+    set2.max_load_factor(0.5); // max_load_factor
+    UnorderedSet<int> set3 = set2; // copy ctor
     UnorderedSet<int> set4;
-    set4 = set2;
-    std::cout << "13. Copy assignment operator - size of assigned set: " << set4.size() << std::endl;
+    set4 = set2; // copy assignment
+    /*
+        -- move :  It just casts ptr2 to an rvalue reference
+        -- so it doesn't create a copy or anything. 
+        --or else if we passed pointer to ptr3 then it would have created a copy
+        -- if we made that pointer const then it wont create a copy but we could not modify the value of the pointer
 
-    
+    */
+    UnorderedSet<int> set5 = std::move(set3); // move ctor
+    UnorderedSet<int> set6;
+    set6 = std::move(set5); // move assignment
+
     return 0;
 }

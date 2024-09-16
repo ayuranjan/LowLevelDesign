@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <functional>
 #include <stdexcept>
-
+using namespace std;
 template <typename Key, typename Value>
 class UnorderedMap {
 private:
@@ -222,11 +222,9 @@ public:
     }
 };
 
-// Main method to showcase examples of the UnorderedMap class usage
+
 int main() {
     /* Logic for Unordered Map implementation:
-
-
     UnorderedMap
    |
    +-- Vector of Buckets
@@ -235,85 +233,41 @@ int main() {
        |
        +-- Bucket 1: [K3,V3] -> nullptr
        |
-
    - Each Bucket is a linked list of KeyValuePairs
-   - The hash function to determine which bucket a key-value pair goes into
-   - Lets supppose Collisions are handled by adding to the same bucket (linked list) 
+   - The hash function determines which bucket a key-value pair goes into
+   - Collisions are handled by adding to the same bucket (linked list)
+   - Keep track of number of elements and buckets (size_ and bucket_count_)
+   - Use load factor to determine when to resize the hash table
+   - Maintain max_load_factor to trigger resizing when exceeded
+   - Allow updating of values for existing keys (insert_or_assign method)
+    */
 
-    -> We also need to Keep track of the number of elements and the number of buckets so we need to have a size_ and bucket_count_ variable
-    -> load factor is used to determine when to resize the hash table so we need to have a load_factor method
-                 ->When load factor (elements / buckets) exceeds a threshold, resize the hash table so we need to have a max_load_factor_ variable
-                -> we would also need to maintain a max_load_factor to trigger resizing when exceeded
-    -> we also need to Allow updating of values for existing keys so we need to have an insert_or_assign method
-   
-*/
-    
-    // 1. Example of default constructor
-    UnorderedMap<std::string, int> map1;
-    std::cout << "1. Default constructor - size: " << map1.size() << ", buckets: " << map1.bucket_count() << std::endl;
+    UnorderedMap<string, int> map1; // default ctor
+    UnorderedMap<string, int> map2(20); // ctor with initial bucket count
+    map2.insert_or_assign("one", 1); // insert_or_assign
+    map2.erase("two"); // erase
+    cout << map2.contains("one"); // contains
+    cout << map2["one"]; // operator[]
+    map2["two"] = 22; // operator[] for insertion
+    cout << map2.size(); // size
+    cout << map2.empty(); // empty
+    map2.clear(); // clear
+    cout << map2.bucket_count(); // bucket_count
+    cout << map2.load_factor(); // load_factor
+    map2.max_load_factor(0.5); // max_load_factor
+    UnorderedMap<string, int> map3 = map2; // copy ctor
+    UnorderedMap<string, int> map4;
+    map4 = map2; // copy assignment
+    /*
+        -- move :  It just casts ptr2 to an rvalue reference
+        -- so it doesn't create a copy or anything. 
+        --or else if we passed pointer to ptr3 then it would have created a copy
+        -- if we made that pointer const then it wont create a copy but we could not modify the value of the pointer
 
-    // 2. Example of constructor with initial bucket count
-    UnorderedMap<std::string, int> map2(20);
-    std::cout << "2. Constructor with initial bucket count - size: " << map2.size() << ", buckets: " << map2.bucket_count() << std::endl;
-
-    // 3. Example of insert_or_assign
-    map2.insert_or_assign("one", 1);
-    map2.insert_or_assign("two", 2);
-    map2.insert_or_assign("three", 3);
-    std::cout << "3. After insertions - size: " << map2.size() << std::endl;
-
-    // 4. Example of erase
-    map2.erase("two");
-    std::cout << "4. After erase('two') - size: " << map2.size() << std::endl;
-
-    // 5. Example of contains
-    std::cout << "5. Contains 'one': " << (map2.contains("one") ? "Yes" : "No") << std::endl;
-    std::cout << "   Contains 'two': " << (map2.contains("two") ? "Yes" : "No") << std::endl;
-
-    // 6. Example of operator[]
-    std::cout << "6. Value for key 'one': " << map2["one"] << std::endl;
-    map2["two"] = 22;  // This will insert a new key-value pair
-    std::cout << "   Value for key 'two': " << map2["two"] << std::endl;
-
-    // 7. Example of size
-    std::cout << "7. Current size: " << map2.size() << std::endl;
-
-    // 8. Example of empty
-    std::cout << "8. Is map empty: " << (map2.empty() ? "Yes" : "No") << std::endl;
-
-    // 9. Example of clear
-    map2.clear();
-    std::cout << "9. After clear - size: " << map2.size() << std::endl;
-
-    // 10. Example of bucket_count
-    std::cout << "10. Bucket count: " << map2.bucket_count() << std::endl;
-
-    // 11. Example of load_factor
-    map2.insert_or_assign("four", 4);
-    map2.insert_or_assign("five", 5);
-    std::cout << "11. Current load factor: " << map2.load_factor() << std::endl;
-
-    // 12. Example of max_load_factor
-    map2.max_load_factor(0.5);
-    std::cout << "12. After setting max_load_factor to 0.5 - bucket count: " << map2.bucket_count() << std::endl;
-
-    // 13. Example of copy constructor
-    UnorderedMap<std::string, int> map3 = map2;
-    std::cout << "13. Copy constructor - size of copied map: " << map3.size() << std::endl;
-
-    // 14. Example of copy assignment operator
-    UnorderedMap<std::string, int> map4;
-    map4 = map2;
-    std::cout << "14. Copy assignment operator - size of assigned map: " << map4.size() << std::endl;
-
-    // 15. Example of move constructor
-    UnorderedMap<std::string, int> map5 = std::move(map3);
-    std::cout << "15. Move constructor - size of moved map: " << map5.size() << std::endl;
-
-    // 16. Example of move assignment operator
-    UnorderedMap<std::string, int> map6;
-    map6 = std::move(map5);
-    std::cout << "16. Move assignment operator - size of moved map: " << map6.size() << std::endl;
+    */
+    UnorderedMap<string, int> map5 = std::move(map3); // move ctor
+    UnorderedMap<string, int> map6;
+    map6 = std::move(map5); // move assignment
 
     return 0;
 }

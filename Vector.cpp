@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <initializer_list>
-
+using namespace std;
 template <typename T>
 class Vector {
 private:
@@ -150,62 +150,43 @@ public:
     }
 };
 
-// Example usage
+
+
 int main() {
+    /* Logic for Vector implementation:
+       -> Uses a dynamically allocated array to store elements
+       -> Maintains size (number of elements) and capacity (total allocated space)
+       -> Automatically resizes when capacity is reached (typically doubles capacity)
+       -> Provides random access through operator[]
+       -> Supports operations like push_back, pop_back, and resize
+       -> Implements copy and move semantics
+       -> Allows iteration through range-based for loops
+    */
     // Type 0: Size getter
     // Type 0: Capacity getter
-    // Type 1: Default constructor
-    Vector<int> v0; 
-    std::cout << "v0 (default constructor) - size: " << v0.size() << ", capacity: " << v0.capacity() << std::endl;
-
-    // Type 2: Constructor with initial size
-    Vector<int> vsz(5);
-    std::cout << "v1 (initialized with size) - size: " << vsz.size() << ", capacity: " << vsz.capacity() << std::endl;
-
-    // Type Extra: Constructor with initializer list
-    Vector<int> v = {1, 6, 4, 7}; 
-    std::cout << "v (initialized with list) - size: " << v.size() << ", capacity: " << v.capacity() << std::endl;
-
-    // Type 3: Push back elements
-    for (int i = 0; i < 10; ++i) {
-        v.push_back(i);
-    }
-    std::cout << "v after push_back - size: " << v.size() << ", capacity: " << v.capacity() << std::endl;
-
-    // Type 4: Access elements
-    std::cout << "First element: " << v[0] << ", Last element: " << v[v.size() - 1] << std::endl;
-
-    // Type 5: Pop back an element
-    std::cout << "Vector size before pop_back: " << v.size() << std::endl;
-    v.pop_back();
-    std::cout << "Vector size after pop_back: " << v.size() << std::endl;
-
-    // Type 6: Iterate over elements
-    std::cout << "All elements: ";
-    for (const auto& elem : v) {
-        std::cout << elem << " ";
-    }
-    std::cout << std::endl;
-
-    // Type 7: Copy constructor
-    Vector<int> v2 = v;
-    std::cout << "v2 (copy constructed) - size: " << v2.size() << ", capacity: " << v2.capacity() << std::endl;
-
-    // Type 7 Extra: Copy assignment operator
+    Vector<int> v0; // default ctor
+    Vector<int> vsz(5); // ctor with initial size
+    Vector<int> v = {1, 6, 4, 7}; // ctor with initializer list
+    v.push_back(10); // push_back
+    cout << v[0]; // operator[]
+    v.pop_back(); // pop_back
+    for (const auto& elem : v) { cout << elem << " "; } // iteration
+    Vector<int> v2 = v; // copy ctor
     Vector<int> v4;
-    v4 = v;
-    // Type 8: Move constructor
-    Vector<int> v3 = std::move(v);
-    std::cout << "v3 (move constructed) - size: " << v3.size() << ", Original vector size: " << v.size() << std::endl;
+    v4 = v; // copy assignment
+    /*
+        -- move :  It just casts ptr2 to an rvalue reference
+        -- so it doesn't create a copy or anything. 
+        --or else if we passed pointer to ptr3 then it would have created a copy
+        -- if we made that pointer const then it wont create a copy but we could not modify the value of the pointer
 
-    // Type 8 Extra: Move assignment operator
+    */
+    Vector<int> v3 = std::move(v); // move ctor
     Vector<int> v5;
-    v5 = std::move(v2);
-    std::cout << "v5 (move assigned) - size: " << v5.size() << ", Original vector size: " << v2.size() << std::endl;
-    
-    // Type 9: Resize
-    v2.resize(5);
-    std::cout << "v2 after resize - size: " << v2.size() << ", capacity: " << v2.capacity() << std::endl;
+    v5 = std::move(v2); // move assignment
+    v2.resize(5); // resize
+    cout << v0.size(); // size getter
+    cout << v0.capacity(); // capacity getter
 
     return 0;
 }

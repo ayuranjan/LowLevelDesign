@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
-
+using namespace std;
 // Deque class definition following Rule of 5 and STL naming conventions
 template <typename T>
 class Deque {
@@ -170,8 +170,8 @@ public:
 };
 
 // Main method to showcase examples of the Deque class usage
-int main() {
 
+int main() {
     /* Logic for Deque implementation:
     -> Use an array of size capacity_
     -> Circular array scenario:
@@ -186,53 +186,33 @@ int main() {
     -> When popping, only update front_ or rear_ index. No need to delete the element.
     -> When pushing, update the index (front_ or rear_) and add the element at that index.
     -> Maintain size_ to keep track of the number of elements in the deque
-*/
-    // 1. Example of default constructor
-    Deque<int> d1;
-    std::cout << "1. Default constructor - size: " << d1.size() << std::endl;
+    */
 
-    // 2. Example of constructor with initial size
-    Deque<int> d2(5);
-    std::cout << "2. Constructor with initial size - size: " << d2.size() << std::endl;
-
-    // 3. Example of push_front
-    d2.push_front(10);
-    std::cout << "3. After push_front(10) - size: " << d2.size() << std::endl;
-
-    // 4. Example of push_back
-    d2.push_back(20);
-    std::cout << "4. After push_back(20) - size: " << d2.size() << std::endl;
-
-    // 5. Example of pop_front
-    d2.pop_front();
-    std::cout << "5. After pop_front - size: " << d2.size() << std::endl;
-
-    // 6. Example of pop_back
-    d2.pop_back();
-    std::cout << "6. After pop_back - size: " << d2.size() << std::endl;
-
-    // 7. Example of front
+    Deque<int> d1; // default ctor
+    Deque<int> d2(5); // param ctor
+    d2.push_front(10); // push_front
+    d2.push_back(20); // push_back
+    d2.pop_front(); // pop_front
+    d2.pop_back(); // pop_back
     d2.push_front(30);
-    std::cout << "7. Front element: " << d2.front() << std::endl;
-
-    // 8. Example of back
+    cout << d2.front(); // front
     d2.push_back(40);
-    std::cout << "8. Back element: " << d2.back() << std::endl;
-
-    // 9. Example of size
-    std::cout << "9. Current size: " << d2.size() << std::endl;
-
-    // 10. Example of empty
-    std::cout << "10. Is deque empty: " << (d2.empty() ? "Yes" : "No") << std::endl;
-
-    // 11. Example of copy constructor
-    Deque<int> d3 = d2;
-    std::cout << "11. Copy constructor - size of copied deque: " << d3.size() << std::endl;
-
-    // 12. Example of copy assignment operator
+    cout << d2.back(); // back
+    cout << d2.size(); // size
+    cout << (d2.empty() ? "Yes" : "No"); // empty
+    Deque<int> d3 = d2; // copy ctor
     Deque<int> d4;
-    d4 = d2;
-    std::cout << "12. Copy assignment operator - size of assigned deque: " << d4.size() << std::endl;
+    d4 = d2; // copy assignment operator
+    /*
+        -- move :  It just casts ptr2 to an rvalue reference
+        -- so it doesn't create a copy or anything. 
+        --or else if we passed pointer to ptr3 then it would have created a copy
+        -- if we made that pointer const then it wont create a copy but we could not modify the value of the pointer
+
+    */
+    Deque<int> d5 = std::move(d4); // move copy ctor
+    Deque<int> d6;
+    d6 = std::move(d5); // move copy assignment operator
 
     return 0;
 }

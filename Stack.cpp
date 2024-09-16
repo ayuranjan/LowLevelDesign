@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <algorithm>
 
-
+using namespace std;
 
 // Stack class definition following Rule of 5 and STL naming conventions
 template <typename T>
@@ -134,6 +134,8 @@ public:
 };
 
 // Main method to showcase examples of the Stack class usage
+
+
 int main() {
     /* Logic for Stack implementation:
     -> Use an array of size capacity_
@@ -144,51 +146,29 @@ int main() {
     -> When popping, decrement top_. No need to delete the element.
     -> Maintain size_ to keep track of the number of elements in the stack
     -> All operations (push, pop, top) are performed at the top_ index
-*/
-    // 1. Example of default constructor
-    Stack<int> s1;
-    std::cout << "1. Default constructor - size: " << s1.size() << std::endl;
+    */
 
-    // 2. Example of constructor with initial capacity
-    Stack<int> s2(5);
-    std::cout << "2. Constructor with initial capacity - size: " << s2.size() << std::endl;
-
-    // 3. Example of push
-    s2.push(10);
+    Stack<int> s1; // default ctor
+    Stack<int> s2(5); // param ctor with initial capacity
+    s2.push(10); // push
     s2.push(20);
-    std::cout << "3. After push(10) and push(20) - size: " << s2.size() << std::endl;
-
-    // 4. Example of pop
-    s2.pop();
-    std::cout << "4. After pop - size: " << s2.size() << std::endl;
-
-    // 5. Example of top
-    std::cout << "5. Top element: " << s2.top() << std::endl;
-
-    // 6. Example of empty
-    std::cout << "6. Is stack empty: " << (s2.empty() ? "Yes" : "No") << std::endl;
-
-    // 7. Example of size
-    std::cout << "7. Current size: " << s2.size() << std::endl;
-
-    // 8. Example of copy constructor
-    Stack<int> s3 = s2;
-    std::cout << "8. Copy constructor - size of copied stack: " << s3.size() << std::endl;
-
-    // 9. Example of copy assignment operator
+    s2.pop(); // pop
+    cout << s2.top(); // top
+    cout << (s2.empty() ? "Yes" : "No"); // empty
+    cout << s2.size(); // size
+    Stack<int> s3 = s2; // copy ctor
     Stack<int> s4;
-    s4 = s2;
-    std::cout << "9. Copy assignment operator - size of assigned stack: " << s4.size() << std::endl;
+    s4 = s2; // copy assignment operator
+    /*
+        -- move :  It just casts ptr2 to an rvalue reference
+        -- so it doesn't create a copy or anything. 
+        --or else if we passed pointer to ptr3 then it would have created a copy
+        -- if we made that pointer const then it wont create a copy but we could not modify the value of the pointer
 
-    // 10. Example of move constructor
-    Stack<int> s5 = std::move(s4);
-    std::cout << "10. Move constructor - size of moved stack: " << s5.size() << std::endl;
-
-    // 11. Example of move assignment operator
+    */
+    Stack<int> s5 = std::move(s4); // move ctor
     Stack<int> s6;
-    s6 = std::move(s5);
-    std::cout << "11. Move assignment operator - size of assigned stack: " << s6.size() << std::endl;
-
+    s6 = std::move(s5); // move assignment operator
 
     return 0;
 }

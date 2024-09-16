@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
-
+using namespace std;
 // 1. Queue class definition following Rule of 5 and STL naming conventions
 template <typename T>
 class Queue {
@@ -151,66 +151,41 @@ public:
     
 };
 
-// Main method to showcase examples of the Queue class usage
-int main() {
 
-    /* Logic :  
-        -> array of size capacity_ 
-        -> while adding/removing we will do (( front/back + 1 )% capacity)  to create kind of circular array scenario 
-            -> when  size_ == capacity_, reallocate more memory.
-        -> front_  = 0  and rear_ = ( capacity_ -1 )
-                -> to avoid the case of front_ = rear_ = 0 
-                ->  else it will be difficult to differentiate between empty and full queue 
-        -> when we pop, we will increment front_ by 1 only. No need to delete the element.
-        -> when we push, we will increment rear_ by 1 and add the element at rear_ index.
+int main() {
+    /* Logic for Queue implementation:
+       -> array of size capacity_ 
+       -> while adding/removing we will do (( front/back + 1 )% capacity)  to create kind of circular array scenario 
+           -> when  size_ == capacity_, reallocate more memory.
+       -> front_  = 0  and rear_ = ( capacity_ -1 )
+               -> to avoid the case of front_ = rear_ = 0 
+               ->  else it will be difficult to differentiate between empty and full queue 
+       -> when we pop, we will increment front_ by 1 only. No need to delete the element.
+       -> when we push, we will increment rear_ by 1 and add the element at rear_ index.
     */
 
-    // 0. size getter
-    // 1. Example of default constructor
-    Queue<int> q1;
-    std::cout << "1. Default constructor - size: " << q1.size() << std::endl;
-
-    // 2. Example of constructor with initial size
-    Queue<int> q2(5);
-    std::cout << "2. Constructor with initial size - size: " << q2.size() << std::endl;
-
-    // 3. Example of push (enqueue)
-    q2.push(10);
-    std::cout << "7. After push(30) - size: " << q2.size() << std::endl;
-
-    // 4. Example of pop (dequeue)
-    q2.pop();
-    std::cout << "8. After pop - size: " << q2.size() << std::endl;
-
-    // 5. empty check 
-    std::cout << "9. Is queue empty: " << q2.empty() << std::endl;
-
-    // 6. Example of copy constructor
+    Queue<int> q1; // default ctor
+    Queue<int> q2(5); // param ctor
+    q2.push(10); // push
+    q2.pop(); // pop
+    cout << q2.empty(); // empty check
     q2.push(10);
     q2.push(20);
-    Queue<int> q3 = q2;
-    std::cout << "3. Copy constructor - size of copied queue: " << q3.size() << std::endl;
-
-
-    // 7 . Example of copy assignment operator
+    Queue<int> q3 = q2; // copy ctor
     Queue<int> q4;
-    q4 = q2;
-    std::cout << "5. Copy assignment operator - size of assigned queue: " << q4.size() << std::endl;
-
-    // 8. Example of move constructor
-    Queue<int> q5 = std::move(q3);
-    std::cout << "4. Move constructor - size of moved queue: " << q5.size() << ", size of original queue: " << q5.size() << std::endl;
-
-
-    // 9 Example of move assignment operator
+    q4 = q2; // copy assignment operator
+    Queue<int> q5 = std::move(q3); // move ctor
     Queue<int> q6;
-    q6 = std::move(q5);
-    std::cout << "6. Move assignment operator - size of moved queue: " << q6.size() << std::endl;
+    /*
+        -- move :  It just casts ptr2 to an rvalue reference
+        -- so it doesn't create a copy or anything. 
+        --or else if we passed pointer to ptr3 then it would have created a copy
+        -- if we made that pointer const then it wont create a copy but we could not modify the value of the pointer
 
-   
-
-    // 10. Example of front
-    std::cout << "9. Front element: " << q6.front() << std::endl;
+    */
+    q6 = std::move(q5); // move assignment operator
+    cout << q6.front(); // front
+    cout << q1.size(); // size getter
 
     return 0;
 }

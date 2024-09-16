@@ -1,7 +1,7 @@
 #include <cstring>
 #include <iostream>
 #include <algorithm>
-
+using namespace std;
 class String
 {
 private:
@@ -125,45 +125,41 @@ public:
     }
 };
 
-int main()
-{
-    // Type 0 : size getter 
+int main() {
+    /* Logic for String implementation:
+       -> Uses a dynamically allocated char array to store the string
+       -> Maintains size of the string
+       -> Implements deep copy for copy operations
+       -> Supports move semantics for efficient transfers
+       -> Overloads operators like +, =, <<
+       -> Provides basic string operations and comparisons
+    */
+   // Type 0 : size getter 
     // Type 0 : cout operator overloading 
-    // Type 1 : Default constructor
-    String s1;
-    std::cout << "s1 (empty): " << s1 << " , size: " << s1.size() << std::endl;
 
-    // Type 2 : Constructor with C-style string
-    const char *s45 = "Hello";
-    String s2("Hello");
-    /*
+    String s1; // default ctor
+      /*
         The above line is equivalent to:
         const char* s = "Hello";
         String s2(s);
     */
-    std::cout << "s2: " << s2 << ", size: " << s2.size() << std::endl;
-
-    // Type 3 : Copy constructor
-    String s3 = s2;
-    std::cout << "s3 (copy of s2): " << s3 << ", size: " << s3.size() << std::endl;
-
-    // Type 4 : Copy assignment operator
+    String s2("Hello"); // ctor with C-style string - 
+    String s3 = s2; // copy ctor
     String s4;
-    s4 = s2;
-    std::cout << "s4 (copy assigned from s2): " << s4 << ", size: " << s4.size() << std::endl;
-
-    // Type 5 : Move constructor
-    String s5 = std::move(String("World")); // std::move converts the argument to an rvalue
-    std::cout << "s5 (move constructed): " << s5 << ", size: " << s5.size() << std::endl;
-
-    // Type 6 :  Move assignment operator
+    s4 = s2; // copy assignment
+    String s5 = std::move(String("World")); // move ctor
     String s6;
-    s6 = std::move(String("C++"));
-    std::cout << "s6 (move assigned): " << s6 << ", size: " << s6.size() << std::endl;
+     /*
+        -- move :  It just casts ptr2 to an rvalue reference
+        -- so it doesn't create a copy or anything. 
+        --or else if we passed pointer to ptr3 then it would have created a copy
+        -- if we made that pointer const then it wont create a copy but we could not modify the value of the pointer
 
-    // Type 7 : Addition operator
-    String s7 = s2 + " " + s5;
-    std::cout << "s7 (s2 + ' ' + s5): " << s7 << ", size: " << s7.size() << std::endl;
+    */
+    s6 = std::move(String("C++")); // move assignment
+    String s7 = s2 + " " + s5; // addition operator
+    cout << s1; // cout operator overloading
+    cout << s1.size(); // size getter
 
     return 0;
 }

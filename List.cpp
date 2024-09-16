@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <initializer_list>
 #include <algorithm>
-
+using namespace std;
 template <typename T>
 class List {
 private:
@@ -169,55 +169,39 @@ public:
 
 // Main method to showcase examples of the List class usage
 int main() {
-    // 1. Example of default constructor
-    List<int> l1; 
-    std::cout << "1. Default constructor - size: " << l1.size() << ", capacity: " << l1.capacity() << std::endl;
+    /* Logic for List implementation:
+       -> Uses a dynamically allocated array to store elements
+       -> Maintains size (number of elements) and capacity (total allocated space)
+       -> Automatically resizes when capacity is reached
+       -> Supports operations like push_back, pop_back, and resize
+       -> Provides random access through operator[]
+       -> Implements copy and move semantics
+       -> Supports iteration through range-based for loops
+    */
 
-    // 2. Example of constructor with initial size
-    List<int> l2(5);
-    std::cout << "2. Constructor with initial size - size: " << l2.size() << ", capacity: " << l2.capacity() << std::endl;
-
-    // 3. Example of constructor with initializer list
-    List<int> l3 = {2, 4, 6, 8} ; // or List<int> l3{2, 4, 6, 8} or List<int> l3({2, 4, 6, 8});
-    std::cout << "3. Constructor with initializer list - size: " << l3.size() << ", capacity: " << l3.capacity() << std::endl;
-
-    // 4. Example of push_back method
-    l3.push_back(10);
-    std::cout << "4. After push_back(10) - size: " << l3.size() << ", last element: " << l3[l3.size() - 1] << std::endl;
-
-    // 5. Example of element access using operator[]
-    std::cout << "5. Accessing element at index 2: " << l3[2] << std::endl;
-
-    // 5 Extra. Example of iterator support
-    std::cout << "5 Extra. Using iterator support: ";
-    for (const auto& x : l3) {
-        std::cout << x << " ";
-    }
-
-    // 6. Example of pop_back method
-    l3.pop_back();
-    std::cout << "6. After pop_back - size: " << l3.size() << std::endl;
-
-    // 7. Example of resize method
-    l3.resize(10);
-    std::cout << "7. After resize(10) - size: " << l3.size() << ", capacity: " << l3.capacity() << std::endl;
-
-    // 8. Example of copy constructor
-    List<int> l4 = l3;
-    std::cout << "8. Copy constructor - size of copied list: " << l4.size() << std::endl;
-
-    // 8 Extra. Example of copy assignment operator
+    List<int> l1; // default ctor
+    List<int> l2(5); // ctor with initial size
+    List<int> l3 = {2, 4, 6, 8}; // ctor with initializer list // or List<int> l3{2, 4, 6, 8} or List<int> l3({2, 4, 6, 8});
+    l3.push_back(10); // push_back
+    std::cout << l3[2]; // operator[]
+    for (const auto& x : l3) { cout << x << " "; } // iterator support
+    l3.pop_back(); // pop_back
+    l3.resize(10); // resize
+    List<int> l4 = l3; // copy ctor
     List<int> l5;
-    l5 = l4;
-    std::cout << "8 Extra. Copy assignment operator - size of assigned list: " << l5.size() << std::endl;
-
-    // 9. Example of move constructor
-    List<int> l6 = std::move(l4);
-    std::cout << "9. Move constructor - size of moved list: " << l6.size() << ", size of original list: " << l4.size() << std::endl;
-
-    // 9 Extra. Example of move assignment operator
+    l5 = l4; // copy assignment
+    List<int> l6 = std::move(l4); // move ctor
     List<int> l7;
-    l7 = std::move(l5);
+    /*
+        -- move :  It just casts ptr2 to an rvalue reference
+        -- so it doesn't create a copy or anything. 
+        --or else if we passed pointer to ptr3 then it would have created a copy
+        -- if we made that pointer const then it wont create a copy but we could not modify the value of the pointer
+
+    */
+    l7 = std::move(l5); // move assignment
+    cout << l3.size(); // size
+    cout << l3.capacity(); // capacity
 
     return 0;
 }
